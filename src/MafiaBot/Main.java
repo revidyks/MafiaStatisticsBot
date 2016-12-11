@@ -46,11 +46,19 @@ public class Main extends TelegramLongPollingBot {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             if (message.getText().equals("/help"))
-                sendMsg(message, "Hello, I'm Mafia Bot");
+                sendMsg(message, "", "ASSISTANCE TO DROWNING PERSONS IS IN THE HANDS OF THOSE PERSONS THEMSELVES");
             else if (message.getText().equals("/start"))
-                sendMsg(message, "Lets begin");
-            else
-                sendMsg(message, "I don't understand you");
+                sendMsg(message, "who","OK! Who are you?");
+            else if (message.getText().equals("/player"))
+                sendMsg(message, "","Name?");
+            else if (message.getText().equals("/master"))
+                sendMsg(message, "master","Lets begin");
+            else if (message.getText().equals("/game"))
+                sendMsg(message, "game","New game started");
+            else if (message.getText().equals("/end"))
+                sendMsg(message, "start","Wanna start new game?");
+            //else
+            //    sendMsg(message, "I don't understand you");
         }
     }
 
@@ -58,7 +66,35 @@ public class Main extends TelegramLongPollingBot {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        if (KBType == "main") {
+        if (KBType == "start") {
+
+            KeyboardRow keyboardFirstRow = new KeyboardRow();
+            keyboardFirstRow.add("/start");
+            keyboardFirstRow.add("/back");
+            keyboard.add(keyboardFirstRow);
+
+        }
+
+        else if (KBType == "who") {
+
+            KeyboardRow keyboardFirstRow = new KeyboardRow();
+            keyboardFirstRow.add("/player");
+            keyboardFirstRow.add("/master");
+            keyboardFirstRow.add("/back");
+            keyboard.add(keyboardFirstRow);
+        }
+
+        else if (KBType == "master") {
+
+            KeyboardRow keyboardFirstRow = new KeyboardRow();
+            keyboardFirstRow.add("/player");
+            keyboardFirstRow.add("/game");
+            keyboardFirstRow.add("/back");
+            keyboard.add(keyboardFirstRow);
+
+        }
+
+        else if (KBType == "game") {
 
             KeyboardRow keyboardFirstRow = new KeyboardRow();
             keyboardFirstRow.add("1");
@@ -78,35 +114,41 @@ public class Main extends TelegramLongPollingBot {
             keyboardThirdRow.add("11");
             keyboardThirdRow.add("12");
 
-            KeyboardRow keyboardfourthRow = new KeyboardRow();
-            keyboardfourthRow.add("Back");
-            keyboardfourthRow.add("Fouls");
+            KeyboardRow keyboardFourthRow = new KeyboardRow();
+            keyboardFourthRow.add("/fouls");
+            keyboardFourthRow.add("/end");
+            keyboardFourthRow.add("/back");
 
             keyboard.add(keyboardFirstRow);
             keyboard.add(keyboardSecondRow);
             keyboard.add(keyboardThirdRow);
-            keyboard.add(keyboardfourthRow);
+            keyboard.add(keyboardFourthRow);
 
-        }
+         }
 
         return keyboard;
 
     }
 
-    private void sendMsg(Message message, String text) {
+    private ReplyKeyboardMarkup GetReplyKeyboardMarkup(String KBType) {
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        //replyKeyboardMarkup.setOneTimeKeyboard(true);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setKeyboard(GetKeyboard(KBType));
+
+        return replyKeyboardMarkup;
+
+    }
+
+    private void sendMsg(Message message, String KBType, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
         //sendMessage.setReplyToMessageId(message.getMessageId());
+        sendMessage.setReplyMarkup(GetReplyKeyboardMarkup(KBType));
         sendMessage.setText(text);
-
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        //replyKeyboardMarkup.setOneTimeKeyboad(true);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-
-        replyKeyboardMarkup.setKeyboard(GetKeyboard("main"));
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
         try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e) {
