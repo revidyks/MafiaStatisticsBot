@@ -55,6 +55,12 @@ public class Main extends TelegramLongPollingBot {
                 sendMsg(message, "master","Lets begin");
             else if (message.getText().equals("/game"))
                 sendMsg(message, "game","New game started");
+            else if (message.getText().equals("/foul"))
+                sendMsg(message, "game","Which player have foul?");
+            else if (message.getText().equals("/night"))
+                sendMsg(message, "game","City sleeps");
+            else if (message.getText().equals("/day"))
+                sendMsg(message, "game","City woke up");
             else if (message.getText().equals("/end"))
                 sendMsg(message, "start","Wanna start new game?");
             //else
@@ -77,20 +83,20 @@ public class Main extends TelegramLongPollingBot {
 
         else if (KBType == "who") {
 
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add("/player");
-            keyboardFirstRow.add("/master");
-            keyboardFirstRow.add("/back");
-            keyboard.add(keyboardFirstRow);
+            KeyboardRow keyboardMenuRow = new KeyboardRow();
+            keyboardMenuRow.add("/player");
+            keyboardMenuRow.add("/master");
+            keyboardMenuRow.add("/back");
+            keyboard.add(keyboardMenuRow);
         }
 
         else if (KBType == "master") {
 
-            KeyboardRow keyboardFirstRow = new KeyboardRow();
-            keyboardFirstRow.add("/player");
-            keyboardFirstRow.add("/game");
-            keyboardFirstRow.add("/back");
-            keyboard.add(keyboardFirstRow);
+            KeyboardRow keyboardMenuRow = new KeyboardRow();
+            keyboardMenuRow.add("/player");
+            keyboardMenuRow.add("/game");
+            keyboardMenuRow.add("/back");
+            keyboard.add(keyboardMenuRow);
 
         }
 
@@ -101,28 +107,30 @@ public class Main extends TelegramLongPollingBot {
             keyboardFirstRow.add("2");
             keyboardFirstRow.add("3");
             keyboardFirstRow.add("4");
+            keyboardFirstRow.add("5");
+            keyboardFirstRow.add("6");
 
             KeyboardRow keyboardSecondRow = new KeyboardRow();
-            keyboardSecondRow.add("5");
-            keyboardSecondRow.add("6");
             keyboardSecondRow.add("7");
             keyboardSecondRow.add("8");
+            keyboardSecondRow.add("9");
+            keyboardSecondRow.add("10");
+            keyboardSecondRow.add("11");
+            keyboardSecondRow.add("12");
 
-            KeyboardRow keyboardThirdRow = new KeyboardRow();
-            keyboardThirdRow.add("9");
-            keyboardThirdRow.add("10");
-            keyboardThirdRow.add("11");
-            keyboardThirdRow.add("12");
+            //KeyboardRow keyboardThirdRow = new KeyboardRow();
 
-            KeyboardRow keyboardFourthRow = new KeyboardRow();
-            keyboardFourthRow.add("/fouls");
-            keyboardFourthRow.add("/end");
-            keyboardFourthRow.add("/back");
+            KeyboardRow keyboardMenuRow = new KeyboardRow();
+            keyboardMenuRow.add("/foul");
+            keyboardMenuRow.add("/night");
+            keyboardMenuRow.add("/day");
+            keyboardMenuRow.add("/end");
+            keyboardMenuRow.add("/back");
 
             keyboard.add(keyboardFirstRow);
             keyboard.add(keyboardSecondRow);
-            keyboard.add(keyboardThirdRow);
-            keyboard.add(keyboardFourthRow);
+            //keyboard.add(keyboardThirdRow);
+            keyboard.add(keyboardMenuRow);
 
          }
 
